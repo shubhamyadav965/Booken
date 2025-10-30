@@ -1,4 +1,16 @@
 {
   "version": 2,
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "buildCommand": "cd Frontend && npm install && npm run build",
+  "outputDirectory": "Frontend/dist",
+  "devCommand": "cd Frontend && npm run dev",
+  "installCommand": "cd Frontend && npm install",
+  "framework": null,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "build": {
+    "env": {
+      "VITE_API_URL": "https://booken-backend.onrender.com"
+    }
+  }
 }

@@ -8,7 +8,7 @@ function MyLibrary() {
   const [library, setLibrary] = useState([]);
   const [loading, setLoading] = useState(true);
   const [authUser] = useAuth();
-  const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:4001";
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4001";
 
   useEffect(() => {
     if (authUser) {

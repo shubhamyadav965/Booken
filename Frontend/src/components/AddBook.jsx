@@ -20,7 +20,7 @@ function AddBook() {
       image: data.image,
     };
 
-    const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:4001";
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4001";
 
     try {
       const res = await axios.post(`${API_URL}/book`, bookInfo);
