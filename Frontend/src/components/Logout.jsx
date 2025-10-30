@@ -7,16 +7,9 @@ function Logout() {
 
   const handleLogout = () => {
     try {
-      // Clear auth context
       setAuthUser(null);
-
-      // Clear localStorage
       localStorage.removeItem("Users");
-
-      // Show success message
       toast.success("Logout successfully");
-
-      // Redirect to home and reload
       setTimeout(() => {
         window.location.href = "/";
       }, 1000);

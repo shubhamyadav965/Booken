@@ -15,7 +15,6 @@ export default function AuthProvider({ children }) {
 
   const [authUser, setAuthUser] = useState(initialAuthUser);
 
-  // Sync with localStorage whenever authUser changes
   useEffect(() => {
     if (authUser) {
       localStorage.setItem("Users", JSON.stringify(authUser));
