@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../api/axios.js"; // Change this import
 import { useAuth } from "../context/AuthProvider";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -8,7 +8,6 @@ function MyLibrary() {
   const [library, setLibrary] = useState([]);
   const [loading, setLoading] = useState(true);
   const [authUser] = useAuth();
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4001";
 
   useEffect(() => {
     if (authUser) {
@@ -18,7 +17,7 @@ function MyLibrary() {
 
   const fetchLibrary = async () => {
     try {
-      const res = await axios.get(`${API_URL}/library/${authUser._id}`);
+      const res = await axiosInstance.get(`/library/${authUser._id}`); // Remove API_URL
       setLibrary(res.data);
       setLoading(false);
     } catch (error) {

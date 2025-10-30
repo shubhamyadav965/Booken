@@ -5,27 +5,27 @@ export const addToLibrary = async (req, res) => {
   try {
     const { userId, bookId, price } = req.body;
 
-    if (!userId || !bookId) {
-      return res
-        .status(400)
-        .json({ message: "UserId and BookId are required" });
+    if (!userId || !bookId || price === undefined) {
+      return res.status(400).json({ message: "userId, bookId, and price are required" });
     }
 
-    // Check if already in library
-    const existing = await Library.findOne({ userId, bookId });
-    if (existing) {
-      return res.status(400).json({ message: "Book already in your library" });
+    // Check if book already in library
+    const existingEntry = await Library.findOne({ userId, bookId });
+    if (existingEntry) {
+      return res.status(400).json({ message: "Book already in library" });
     }
 
-    const newEntry = new Library({ userId, bookId, price: price || 0 });
-    await newEntry.save();
+    const newLibraryEntry = new Library({
+      userId,
+      bookId,
+      price,
+    });
 
-    res
-      .status(201)
-      .json({ message: "Book added to library", library: newEntry });
+    await newLibraryEntry.save();
+    res.status(201).json({ message: "Book added to library", library: newLibraryEntry });
   } catch (error) {
-    console.log("Error: ", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("Error adding to library:", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
 
@@ -35,10 +35,9 @@ export const getUserLibrary = async (req, res) => {
     const { userId } = req.params;
 
     const library = await Library.find({ userId }).populate("bookId");
-
     res.status(200).json(library);
   } catch (error) {
-    console.log("Error: ", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("Error fetching library:", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };

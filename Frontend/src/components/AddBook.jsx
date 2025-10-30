@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+import axiosInstance from "../api/axios.js"; // Change this import
 import toast from "react-hot-toast";
 
 function AddBook() {
@@ -20,10 +20,8 @@ function AddBook() {
       image: data.image,
     };
 
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4001";
-
     try {
-      const res = await axios.post(`${API_URL}/book`, bookInfo);
+      const res = await axiosInstance.post("/book", bookInfo); // Remove API_URL
       if (res.data) {
         toast.success("Book added successfully!");
         reset(); // Clear form
@@ -33,7 +31,9 @@ function AddBook() {
       }
     } catch (err) {
       console.log(err);
-      toast.error("Error: " + (err.response?.data?.message || "Failed to add book"));
+      toast.error(
+        "Error: " + (err.response?.data?.message || "Failed to add book")
+      );
     }
   };
 
@@ -51,7 +51,9 @@ function AddBook() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Book Name */}
           <div>
-            <label className="block text-sm font-medium mb-1">Book Name *</label>
+            <label className="block text-sm font-medium mb-1">
+              Book Name *
+            </label>
             <input
               type="text"
               placeholder="e.g., The Great Gatsby"
@@ -59,13 +61,17 @@ function AddBook() {
               {...register("name", { required: true })}
             />
             {errors.name && (
-              <span className="text-sm text-red-500">This field is required</span>
+              <span className="text-sm text-red-500">
+                This field is required
+              </span>
             )}
           </div>
 
           {/* Title/Description */}
           <div>
-            <label className="block text-sm font-medium mb-1">Description *</label>
+            <label className="block text-sm font-medium mb-1">
+              Description *
+            </label>
             <input
               type="text"
               placeholder="e.g., A classic American novel"
@@ -73,13 +79,17 @@ function AddBook() {
               {...register("title", { required: true })}
             />
             {errors.title && (
-              <span className="text-sm text-red-500">This field is required</span>
+              <span className="text-sm text-red-500">
+                This field is required
+              </span>
             )}
           </div>
 
           {/* Price */}
           <div>
-            <label className="block text-sm font-medium mb-1">Price ($) *</label>
+            <label className="block text-sm font-medium mb-1">
+              Price ($) *
+            </label>
             <input
               type="number"
               step="0.01"
@@ -104,13 +114,17 @@ function AddBook() {
               <option value="Paid">Paid</option>
             </select>
             {errors.category && (
-              <span className="text-sm text-red-500">This field is required</span>
+              <span className="text-sm text-red-500">
+                This field is required
+              </span>
             )}
           </div>
 
           {/* Image URL */}
           <div>
-            <label className="block text-sm font-medium mb-1">Image URL *</label>
+            <label className="block text-sm font-medium mb-1">
+              Image URL *
+            </label>
             <input
               type="url"
               placeholder="https://example.com/image.jpg"

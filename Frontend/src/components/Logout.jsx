@@ -4,27 +4,31 @@ import toast from "react-hot-toast";
 
 function Logout() {
   const [authUser, setAuthUser] = useAuth();
+
   const handleLogout = () => {
     try {
-      setAuthUser({
-        ...authUser,
-        user: null,
-      });
+      // Clear auth context
+      setAuthUser(null);
+
+      // Clear localStorage
       localStorage.removeItem("Users");
+
+      // Show success message
       toast.success("Logout successfully");
 
+      // Redirect to home and reload
       setTimeout(() => {
         window.location.href = "/";
-      }, 500);
+      }, 1000);
     } catch (error) {
-      toast.error("Error: " + error);
-      setTimeout(() => {}, 2000);
+      toast.error("Error: " + error.message);
     }
   };
+
   return (
     <div>
       <button
-        className="px-3 py-2 bg-red-500 text-white rounded-md cursor-pointer hover:bg-red-600 duration-200"
+        className="px-3 py-2 bg-red-500 text-white rounded-md cursor-pointer"
         onClick={handleLogout}
       >
         Logout

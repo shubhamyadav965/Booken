@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+import axiosInstance from "../api/axios.js"; // Change this import
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthProvider";
 
@@ -18,21 +18,19 @@ function Login() {
       email: data.email,
       password: data.password,
     };
-    
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4001";
-    
+
     try {
-      const res = await axios.post(`${API_URL}/user/login`, userInfo);
-      
+      const res = await axiosInstance.post("/user/login", userInfo); // Remove API_URL
+
       if (res.data) {
         toast.success("Logged in successfully!");
-        
+
         // Update auth context immediately
         setAuthUser(res.data.user);
-        
+
         // Close modal
         document.getElementById("my_modal_3").close();
-        
+
         // Small delay then reload
         setTimeout(() => {
           window.location.href = "/";
@@ -62,7 +60,7 @@ function Login() {
             </Link>
 
             <h3 className="font-bold text-lg">Login</h3>
-            
+
             {/* Email */}
             <div className="mt-4 space-y-2">
               <span>Email</span>
@@ -80,7 +78,7 @@ function Login() {
                 </span>
               )}
             </div>
-            
+
             {/* Password */}
             <div className="mt-4 space-y-2">
               <span>Password</span>
@@ -101,7 +99,7 @@ function Login() {
 
             {/* Button */}
             <div className="flex justify-around mt-6">
-              <button 
+              <button
                 type="submit"
                 className="bg-pink-500 text-white rounded-md px-3 py-1 hover:bg-pink-700 duration-200"
               >

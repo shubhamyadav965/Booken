@@ -1,6 +1,5 @@
 import User from "../model/user.model.js";
 import bcryptjs from "bcryptjs";
-import jwt from "jsonwebtoken"; // Add this import
 
 export const signup = async (req, res) => {
   try {
@@ -11,26 +10,24 @@ export const signup = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    if (password.length < 6) {
-      return res.status(400).json({ message: "Password must be at least 6 characters" });
-    }
-
-    const user = await User.findOne({ email });
-    if (user) {
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
-    const hashPassword = await bcryptjs.hash(password, 10);
+
+    // Hash password
+    const saltRounds = parseInt(process.env.SALT_ROUNDS) || 10;
+    const hashPassword = await bcryptjs.hash(password, saltRounds);
+
+    // Create new user
     const createdUser = new User({
-      fullname: fullname,
-      email: email,
+      fullname,
+      email,
       password: hashPassword,
     });
-    await createdUser.save();
 
-    // Generate JWT token
-    const token = jwt.sign({ _id: createdUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
+    await createdUser.save();
 
     res.status(201).json({
       message: "User created successfully",
@@ -39,13 +36,13 @@ export const signup = async (req, res) => {
         fullname: createdUser.fullname,
         email: createdUser.email,
       },
-      token, // Send token to client
     });
   } catch (error) {
-    console.log("Error: " + error.message);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("Error in signup:", error.message);
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
+
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -55,18 +52,19 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Email and password are required" });
     }
 
+    // Find user by email
     const user = await User.findOne({ email });
-
-    // Check user exists first, before password comparison
     if (!user) {
-      return res.status(400).json({ message: "Invalid username or password" });
+      return res.status(400).json({ message: "Invalid email or password" });
     }
 
+    // Compare password
     const isMatch = await bcryptjs.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid username or password" });
+      return res.status(400).json({ message: "Invalid email or password" });
     }
 
+    // Return user data (excluding password)
     res.status(200).json({
       message: "Login successful",
       user: {
@@ -74,12 +72,9 @@ export const login = async (req, res) => {
         fullname: user.fullname,
         email: user.email,
       },
-      token: jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "7d",
-      }),
     });
   } catch (error) {
-    console.log("Error: " + error.message);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("Error in login:", error.message);
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+import axiosInstance from "../api/axios.js"; // Change this import
 import toast from "react-hot-toast";
 
 function Signup() {
@@ -27,10 +27,8 @@ function Signup() {
       password: data.password,
     };
 
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4001";
-
-    await axios
-      .post(`${API_URL}/user/signup`, userInfo)
+    await axiosInstance
+      .post("/user/signup", userInfo) // Remove API_URL
       .then((res) => {
         console.log(res.data);
         if (res.data) {
