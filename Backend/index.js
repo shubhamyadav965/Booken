@@ -70,10 +70,7 @@ app.get("/health", (req, res) => {
 // Start server only after successful DB connection
 async function start() {
   try {
-    await mongoose.connect(URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(URI);
     console.log("Connected to mongoDB");
 
     app.listen(PORT, () => {

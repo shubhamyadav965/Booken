@@ -72,10 +72,7 @@ const sampleBooks = [
 
 async function seedDatabase() {
   try {
-    await mongoose.connect(URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(URI);
     console.log("Connected to MongoDB");
 
     // Clear existing books
