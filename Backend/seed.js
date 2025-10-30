@@ -4,7 +4,12 @@ import Book from "./model/book.model.js";
 
 dotenv.config();
 
-const URI = process.env.MONGODB_URI || process.env.MongoDBURI;
+const URI = process.env.MONGODB_URI;
+
+if (!URI) {
+  console.error("FATAL: MONGODB_URI not set in .env file");
+  process.exit(1);
+}
 
 const sampleBooks = [
   {
