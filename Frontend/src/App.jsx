@@ -7,6 +7,7 @@ import { useAuth } from "./context/AuthProvider";
 import BooksPage from "./pages/BooksPage";
 import ContactPage from "./pages/ContactPage";
 import MyLibraryPage from "./pages/MyLibraryPage";
+import AddBookPage from "./pages/AddBookPage";
 
 function App() {
   const [authUser] = useAuth();
@@ -20,6 +21,10 @@ function App() {
         <Route
           path="/library"
           element={authUser ? <MyLibraryPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/add-book"
+          element={authUser ? <AddBookPage /> : <Navigate to="/" />}
         />
         <Route path="/signup" element={<Signup />} />
       </Routes>

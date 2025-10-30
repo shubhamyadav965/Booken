@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Login from "./Login";
 import Logout from "./Logout";
 import { useAuth } from "../context/AuthProvider";
-import AddBook from "./AddBook";
 
 function Navbar() {
   const [authUser, setAuthUser] = useAuth();
@@ -52,9 +51,14 @@ function Navbar() {
         <Link to="/contact">Contact</Link>
       </li>
       {authUser && (
-        <li>
-          <Link to="/library">My Library</Link>
-        </li>
+        <>
+          <li>
+            <Link to="/library">My Library</Link>
+          </li>
+          <li>
+            <Link to="/add-book">Add Book</Link>
+          </li>
+        </>
       )}
     </>
   );
@@ -71,11 +75,7 @@ function Navbar() {
         <div className="navbar">
           <div className="navbar-start">
             <div className="dropdown">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-ghost lg:hidden"
-              >
+              <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5"
@@ -149,61 +149,6 @@ function Navbar() {
           </div>
         </div>
       </div>
-
-      {/* About Modal with Contact Info */}
-      <dialog id="about_modal" className="modal">
-        <div className="modal-box dark:bg-slate-800 dark:text-white max-w-2xl">
-          <form method="dialog">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-              ✕
-            </button>
-          </form>
-          <h3 className="font-bold text-lg mb-4">About Booken</h3>
-          <div className="space-y-3">
-            <p>
-              <strong>Booken</strong> is your digital bookstore, offering a
-              curated collection of books across all genres.
-            </p>
-            <p>
-              <strong>Our Mission:</strong> To make quality literature
-              accessible to everyone, everywhere.
-            </p>
-            <p>
-              <strong>What We Offer:</strong>
-            </p>
-            <ul className="list-disc list-inside ml-4">
-              <li>Free books and educational content</li>
-              <li>Premium books across all genres</li>
-              <li>User-friendly interface with dark mode</li>
-              <li>Secure authentication and personalized experience</li>
-              <li>My Library feature to track your purchased books</li>
-            </ul>
-
-            <div className="divider">Contact Us</div>
-
-            <div className="space-y-2">
-              <p>
-                <strong>Email:</strong> support@booken.com
-              </p>
-              <p>
-                <strong>Phone:</strong> +1 (555) 123-4567
-              </p>
-              <p>
-                <strong>Address:</strong> 123 Book Street, Reading City, RC
-                12345
-              </p>
-            </div>
-
-            <p className="mt-4">Join our community of readers today!</p>
-          </div>
-        </div>
-        <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
-
-      {/* Add Book Modal */}
-      <AddBook />
     </>
   );
 }
