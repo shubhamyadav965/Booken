@@ -71,7 +71,11 @@ function Navbar() {
         <div className="navbar">
           <div className="navbar-start">
             <div className="dropdown">
-              <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost lg:hidden"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5"
@@ -185,7 +189,8 @@ function Navbar() {
                 <strong>Phone:</strong> +1 (555) 123-4567
               </p>
               <p>
-                <strong>Address:</strong> 123 Book Street, Reading City, RC 12345
+                <strong>Address:</strong> 123 Book Street, Reading City, RC
+                12345
               </p>
             </div>
 

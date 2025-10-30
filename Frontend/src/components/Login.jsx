@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axiosInstance from "../api/axios.js"; // Change this import
+import axiosInstance from "../api/axios.js";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthProvider";
 
@@ -20,25 +20,31 @@ function Login() {
     };
 
     try {
-      const res = await axiosInstance.post("/user/login", userInfo); // Remove API_URL
+      const res = await axiosInstance.post("/user/login", userInfo);
 
-      if (res.data) {
-        toast.success("Logged in successfully!");
+      if (res.data && res.data.user) {
+        console.log("Login response:", res.data);
 
-        // Update auth context immediately
+        // Store in localStorage FIRST
+        localStorage.setItem("Users", JSON.stringify(res.data.user));
+
+        // Update auth context
         setAuthUser(res.data.user);
 
-        // Close modal
+        // Show success message
+        toast.success("Logged in successfully!");
+
+        // Close the modal
         document.getElementById("my_modal_3").close();
 
-        // Small delay then reload
+        // Reload page after a short delay
         setTimeout(() => {
-          window.location.href = "/";
-        }, 300);
+          window.location.reload();
+        }, 500);
       }
     } catch (err) {
+      console.error("Login error:", err);
       if (err.response) {
-        console.log(err);
         toast.error("Error: " + err.response.data.message);
       } else {
         toast.error("Cannot connect to server");

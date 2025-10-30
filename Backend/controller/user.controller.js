@@ -39,7 +39,9 @@ export const signup = async (req, res) => {
     });
   } catch (error) {
     console.error("Error in signup:", error.message);
-    res.status(500).json({ message: "Internal server error", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 
@@ -49,7 +51,9 @@ export const login = async (req, res) => {
 
     // Validate input
     if (!email || !password) {
-      return res.status(400).json({ message: "Email and password are required" });
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
     }
 
     // Find user by email
@@ -75,6 +79,8 @@ export const login = async (req, res) => {
     });
   } catch (error) {
     console.error("Error in login:", error.message);
-    res.status(500).json({ message: "Internal server error", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };

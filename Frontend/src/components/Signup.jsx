@@ -1,10 +1,12 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axiosInstance from "../api/axios.js"; // Change this import
+import axiosInstance from "../api/axios.js";
 import toast from "react-hot-toast";
+import { useAuth } from "../context/AuthProvider";
 
 function Signup() {
+  const [authUser, setAuthUser] = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
@@ -27,31 +29,33 @@ function Signup() {
       password: data.password,
     };
 
-    await axiosInstance
-      .post("/user/signup", userInfo) // Remove API_URL
-      .then((res) => {
-        console.log(res.data);
-        if (res.data) {
-          toast.success("Signup Successfully");
-          // Set localStorage FIRST
-          localStorage.setItem("Users", JSON.stringify(res.data.user));
-          // Then navigate
-          setTimeout(() => {
-            navigate(from, { replace: true });
-            window.location.reload();
-          }, 500);
-        }
-      })
-      .catch((err) => {
-        if (err.response) {
-          console.log(err);
-          toast.error("Error: " + err.response.data.message);
-        } else {
-          toast.error(
-            "Cannot connect to server. Make sure backend is running on port 4001"
-          );
-        }
-      });
+    try {
+      const res = await axiosInstance.post("/user/signup", userInfo);
+
+      if (res.data && res.data.user) {
+        console.log("Signup response:", res.data);
+        toast.success("Signup Successfully");
+
+        // Store in localStorage
+        localStorage.setItem("Users", JSON.stringify(res.data.user));
+
+        // Update auth context
+        setAuthUser(res.data.user);
+
+        // Navigate and reload
+        setTimeout(() => {
+          navigate(from, { replace: true });
+          window.location.reload();
+        }, 500);
+      }
+    } catch (err) {
+      console.error("Signup error:", err);
+      if (err.response) {
+        toast.error("Error: " + err.response.data.message);
+      } else {
+        toast.error("Cannot connect to server");
+      }
+    }
   };
 
   return (
@@ -135,7 +139,6 @@ function Signup() {
                     to="/"
                     className="underline text-blue-500 cursor-pointer"
                     onClick={() => {
-                      // Close signup page and open login modal
                       setTimeout(() => {
                         document.getElementById("my_modal_3").showModal();
                       }, 100);
