@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
+  "buildCommand": "cd Frontend && npm install && npm run build",
   "outputDirectory": "Frontend/dist",
   "devCommand": "cd Frontend && npm run dev",
   "installCommand": "cd Frontend && npm install",
