@@ -67,9 +67,7 @@ function AddBook() {
 
             {/* Title */}
             <div>
-              <label className="block text-sm font-medium mb-2">
-                Title
-              </label>
+              <label className="block text-sm font-medium mb-2">Title</label>
               <input
                 type="text"
                 placeholder="Enter book title"
@@ -80,9 +78,7 @@ function AddBook() {
 
             {/* Price */}
             <div>
-              <label className="block text-sm font-medium mb-2">
-                Price *
-              </label>
+              <label className="block text-sm font-medium mb-2">Price *</label>
               <input
                 type="number"
                 step="0.01"

@@ -35,14 +35,8 @@ function Signup() {
       if (res.data && res.data.user) {
         console.log("Signup response:", res.data);
         toast.success("Signup Successfully");
-
-        // Store in localStorage
         localStorage.setItem("Users", JSON.stringify(res.data.user));
-
-        // Update auth context
         setAuthUser(res.data.user);
-
-        // Navigate and reload
         setTimeout(() => {
           navigate(from, { replace: true });
           window.location.reload();

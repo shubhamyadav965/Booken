@@ -24,20 +24,10 @@ function Login() {
 
       if (res.data && res.data.user) {
         console.log("Login response:", res.data);
-
-        // Store in localStorage FIRST
         localStorage.setItem("Users", JSON.stringify(res.data.user));
-
-        // Update auth context
         setAuthUser(res.data.user);
-
-        // Show success message
         toast.success("Logged in successfully!");
-
-        // Close the modal
         document.getElementById("my_modal_3").close();
-
-        // Reload page after a short delay
         setTimeout(() => {
           window.location.reload();
         }, 500);
@@ -67,7 +57,6 @@ function Login() {
 
             <h3 className="font-bold text-lg">Login</h3>
 
-            {/* Email */}
             <div className="mt-4 space-y-2">
               <span>Email</span>
               <br />
@@ -85,7 +74,6 @@ function Login() {
               )}
             </div>
 
-            {/* Password */}
             <div className="mt-4 space-y-2">
               <span>Password</span>
               <br />
@@ -103,7 +91,6 @@ function Login() {
               )}
             </div>
 
-            {/* Button */}
             <div className="flex justify-around mt-6">
               <button
                 type="submit"
