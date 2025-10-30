@@ -7,7 +7,7 @@ function BooksPage() {
   return (
     <>
       <Navbar />
-      <div className=" min-h-screen">
+      <div className="min-h-screen">
         <Books />
       </div>
       <Footer />

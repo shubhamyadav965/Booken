@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../api/axios.js";
 import Cards from "./Cards";
+import axiosInstance from "../api/axios.js";
 import { Link } from "react-router-dom";
 
 function Books() {
@@ -41,20 +41,22 @@ function Books() {
             <span className="text-pink-500">Here! :)</span>
           </h1>
           <p className="mt-12">
-            Explore our vast collection of books across various categories. From
-            free educational content to premium bestsellers, find your next
-            great read here!
+            Explore our complete catalog of books. From free educational content
+            to premium bestsellers, find your next great read here. Browse by
+            category or search for your favorite titles!
           </p>
           <Link to="/">
             <button className="mt-6 bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-700 duration-300">
-              Back
+              Back to Home
             </button>
           </Link>
         </div>
         <div className="mt-12 grid grid-cols-1 md:grid-cols-4 gap-4">
-          {book.map((item) => (
-            <Cards key={item._id} item={item} />
-          ))}
+          {book.length > 0 ? (
+            book.map((item) => <Cards key={item._id} item={item} />)
+          ) : (
+            <p className="text-center col-span-4">No books available</p>
+          )}
         </div>
       </div>
     </>
