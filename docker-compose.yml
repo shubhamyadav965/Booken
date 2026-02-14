@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+
+  backend:
+    build: ./Backend
+    container_name: booken-backend
+    ports:
+      - "4001:4001"
+    env_file:
+      - ./Backend/.env
+    restart: always
